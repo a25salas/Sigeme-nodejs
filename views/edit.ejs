@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%=title%></title>
+        <script type="text/javascript" src="/../js/jquery-1.10.2.min.js"></script>
+        <link rel="stylesheet" href="/../css/style.css">
+    </head>
+<body>
+<form method="post" action="" id="the-form">
+    <table cellpadding="11">
+    <tr>
+        <td class="label">cedula</td><td>: <input type="text" name="cedula" value="<%=data[0].cedula%>"></td>
+     </tr>
+
+    <tr>
+        <td class="label">nombre</td><td>: <input type="text" name="nombre" value="<%=data[0].nombre%>"></td>
+     </tr>
+    <tr>
+        <td class="label">email</td><td>: <input type="text" name="email" value="<%=data[0].email%>"></td>
+     </tr>
+      <tr>
+        <td class="label">telefono</td><td>: <input type="text" name="telefono" value="<%=data[0].telefono%>"></td>
+     </tr>
+      <tr>
+        <td class="label">puesto</td><td>: <input type="text" name="puesto" value="<%=data[0].puesto%>"></td>
+     </tr>
+      <tr>
+        <td class="label">sexo</td><td>: <input type="text" name="sexo" value="<%=data[0].sexo%>"></td>
+     </tr>
+     <tr>
+        <td class="label">profesion</td><td>: <input type="text" name="profesion" value="<%=data[0].profesion%>"></td>
+     </tr>
+     <tr>
+        <td class="label">fechaNacimiento</td><td>: <input type="text" name="fechaNacimiento" value="<%=data[0].fechaNacimiento%>"></td>
+     </tr>
+     <tr>
+        <td class="label">fechaIngreso</td><td>: <input type="text" name="fechaIngreso" value="<%=data[0].fechaIngreso%>"></td>
+     </tr>
+     <tr>
+        <td class="label"></td>
+        <td>
+            &nbsp; <input class="a-inside save"  type="button" value="Save" onClick="saveUser()">
+        </td>
+     </tr>
+    </table>
+</form>
+ <script>
+    
+        function saveUser(){
+           
+           $.ajax({
+            
+            url:"/api/user/<%=data[0].cedula%>",
+            type:"put",
+            data:$("#the-form").serialize(),
+            success:function(res){
+                
+                window.location.href = '/api/user';
+                return false;
+            },
+            error:function(xhr, status, error){
+                
+                console.log(xhr.responseText);
+                var err = '';
+                $.each(JSON.parse(xhr.responseText) , function(i, item) {
+                   
+                     err +='<li>'+item.msg+'</li>';
+                });
+                $(".err-area").html(err);    
+                return false;
+            }
+            
+           });
+        }
+    
+    </script>
+</body>
+</html>
